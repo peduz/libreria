@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link th:rel="stylesheet"
+	th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}" />
+
+<title>SHOW</title>
+</head>
+<body>
+	<h1>Dettaglio del libro</h1>
+	
+	<h2 th:text="${book.title}"></h2>
+	
+	<h3 th:text="${book.author}"></h3>
+	
+	<p th:text="|isbn: ${book.isbn}|"></p>
+	
+	<script th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
