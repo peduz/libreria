@@ -27,6 +27,7 @@ public class BookController {
 		
 		List<Book> libri = new ArrayList<>();
 		
+		
 		if(author == null || author.isBlank()) {
 			libri = repository.findAll();
 		} else {
