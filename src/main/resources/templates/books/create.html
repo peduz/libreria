@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link th:rel="stylesheet"
+	th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}" />
+
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<title>CREATE</title>
+</head>
+<body>
+	<h1 class="fs-2">Inserisci i valori per creare un nuovo libro</h1>
+
+	<div class="container">
+		<form id="book-form" 
+			  th:object="${book}" 
+			  th:action="@{/books/create}"
+			  method="post">
+	
+			<label for="isbn" name="ISBN"> Isbn</label>
+			<input type="text" class="form-control" 
+					id="isbn" th:field="*{isbn}" th:errorClass="is-invalid">
+			<div th:if="${#fields.hasErrors('isbn')}" class="invalid-feedback">
+				<ul>
+	   				<li th:each="err : ${#fields.errors('isbn')}" 
+	   					th:text="${err}">
+	   				</li>
+				</ul>
+			</div>
+	
+			<label for="author" name="Author"> Author </label>
+			<input type="text" class="form-control" 
+					id="author" th:field="*{author}" th:errorClass="is-invalid">
+			<div th:if="${#fields.hasErrors('author')}" class="invalid-feedback">
+				<ul>
+	   				<li th:each="err : ${#fields.errors('author')}" 
+	   					th:text="${err}">
+	   				</li>
+				</ul>
+			</div>
+			
+			<label for="title" name="Title"> Title </label>
+			<input type="text" class="form-control" 
+					id="title" th:field="*{title}" th:errorClass="is-invalid">
+			<div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
+				<ul>
+	   				<li th:each="err : ${#fields.errors('title')}" 
+	   					th:text="${err}">
+	   				</li>
+				</ul>
+			</div>
+			
+			<button class="btn btn-primary"> Save </button>				
+		</form>
+	</div>
+
+	<script th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
