@@ -73,4 +73,39 @@ public class BookController {
 
 	   return "redirect:/books";
 	}
+	
+	
+	@GetMapping("/edit/{id}")
+	public String edit(@PathVariable("id") Integer id, Model model) {
+		
+		model.addAttribute("book", repository.getReferenceById(id));
+		
+		return "/books/edit";
+	}
+	
+	
+	@PostMapping("/edit/{id}")
+	public String update(
+			@Valid @ModelAttribute("book") Book book,
+			BindingResult bindingResult,
+			Model model) {
+		
+		if(bindingResult.hasErrors()) {
+			return "/books/edit";
+		}
+		
+		repository.save(book);
+		
+		return "redirect:/books";
+	}
+	
+	
+	@PostMapping("/delete/{id}")
+	public String delete(@PathVariable("id") Integer id) {
+		
+		repository.deleteById(id);
+		
+		return "redirect:/books";
+	}
+	
 }

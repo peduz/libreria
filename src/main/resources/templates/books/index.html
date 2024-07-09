@@ -15,31 +15,52 @@
 <title>INDEX</title>
 </head>
 <body>
-	<h1>Tabella dei libri</h1>
 
+	<div class="container">
+		<div class="text-center">
+			<h1>Tabella dei libri</h1>
+		</div>
+		
+		<table id="table-1" class="table table-striped">
+			<thead>
+				<tr>
+					<th>ISBN</th>
+					<th>TITOLO</th>
+					<th>AUTORE</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="libro : ${list}">
+					<td th:text="${libro.isbn}">1</td>
+					<td th:text="${libro.title}">1</td>
+					<td th:text="${libro.author}"></td>
 
-	<table id="table-1">
-		<thead>
-			<tr>
-				<th>ISBN</th>
-				<th>TITOLO</th>
-				<th>AUTORE</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="libro : ${list}">
-				<td th:text="${libro.isbn}">1</td>
-				<td th:text="${libro.title}">1</td>
-				<td th:text="${libro.author}"></td>
-
-				<td><a class="btn btn-primary" target="_blank"
-					th:href="@{|/books/show/${libro.id}|}"> <i class="bi bi-book"></i>
-					</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+					<td class="d-flex justify-content-center gap-2" >
+						<a class="btn btn-primary"
+							th:href="@{|/books/show/${libro.id}|}"> <i class="bi bi-book"></i>
+						</a> <a class="btn btn-primary"
+							th:href="@{|/books/edit/${libro.id}|}"> <i
+								class="bi bi-pencil-square"></i>
+						</a>
+						<form th:action="@{'/books/delete/{id}'(id=${libro.id})}"
+							method="post">
+							<button class="btn btn-danger" type="submit" id="submitButton"
+								th:data-confirm-delete="|Sei sicuro di voler cancellare il libro?|"
+								onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">
+								<i class="bi bi-trash"></i>
+							</button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div>
+			<a class="btn btn-primary" 
+				th:href="@{/books/create}"> Crea nuovo
+			</a>
+		</div>
+	</div>
 	<div th:if="${list.isEmpty()}">
 		<span> La ricerca non ha prodotto risultati </span>
 	</div>
