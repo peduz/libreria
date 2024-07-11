@@ -13,19 +13,42 @@
 <title>SHOW</title>
 </head>
 <body>
-	<div>
-	<h1>Dettaglio del libro</h1>
-	
-	<h2 th:text="${book.title}"></h2>
-	
-	<h3 th:text="${book.author}"></h3>
-	
-	<p th:text="|isbn: ${book.isbn}|"></p>
+	<div class="container">
+		<h1>Dettaglio del libro</h1>
 
-	<a class="btn btn-primary" th:href="@{/books}"> Torna alla lista </a>	
+		<h2 th:text="${book.title}"></h2>
+
+		<h3 th:text="${book.author}"></h3>
+
+		<p th:text="|isbn: ${book.isbn}|"></p>
+
+		<div th:unless="${book.borrowings.isEmpty()}" >
+			<table id="prestiti">
+				<thead>
+					<tr>
+						<th>Data prestito</th>
+						<th>Data restituzione</th>
+						<th>Note</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="prestito : ${book.borrowings}">
+						<td th:text="${prestito.borrowingDate}">1</td>
+						<td th:text="${prestito.returnDate}">1</td>
+						<td th:text="${prestito.note}">1</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div th:if="${book.borrowings.isEmpty()}" >
+			<p >Non ci sono prestiti per questo libro</p>
+		</div>
+		<a class="btn btn-primary" th:href="@{/books/{id}/borrow(id=${book.id})}"> Avvia nuovo prestito </a>
+		
+		<a class="btn btn-primary" th:href="@{/books}"> Torna alla lista dei libri </a>
 	</div>
 	
-	
+
 	<script th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

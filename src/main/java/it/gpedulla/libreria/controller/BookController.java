@@ -1,5 +1,6 @@
 package it.gpedulla.libreria.controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import it.gpedulla.libreria.model.Book;
+import it.gpedulla.libreria.model.Borrowing;
 import it.gpedulla.libreria.repository.BookRepository;
+import it.gpedulla.libreria.repository.BorrowingRepository;
 import jakarta.validation.Valid;
 
 @Controller
@@ -23,7 +26,10 @@ import jakarta.validation.Valid;
 public class BookController {
 
 	@Autowired
-	private BookRepository repository;
+	private BookRepository bookRepository;
+
+	@Autowired
+	private BorrowingRepository borrowingRepository;
 	
 	@GetMapping
 	public String index(Model model, 
@@ -33,9 +39,9 @@ public class BookController {
 		
 		
 		if(author == null || author.isBlank()) {
-			libri = repository.findAll();
+			libri = bookRepository.findAll();
 		} else {
-			libri = repository.findByAuthorOrderByIdDesc(author);
+			libri = bookRepository.findByAuthorOrderByIdDesc(author);
 		}
 		
 		model.addAttribute("list", libri);
@@ -46,14 +52,14 @@ public class BookController {
 	@GetMapping("/show/{id}")
 	public String show(@PathVariable("id") Integer bookId, Model model) {
 		
-		model.addAttribute("book", repository.getReferenceById(bookId));
+		model.addAttribute("book", bookRepository.findById(bookId).get());
 		
 		return "/books/show";
 	}
 	
 	@GetMapping("/create")
 	public String create(Model model) {
-
+		
 	    model.addAttribute("book", new Book());
 	    
 	    return "/books/create";
@@ -69,7 +75,7 @@ public class BookController {
 	      return "/books/create";
 	   }
 
-	   repository.save(formBook);
+	   bookRepository.save(formBook);
 
 	   return "redirect:/books";
 	}
@@ -78,7 +84,7 @@ public class BookController {
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable("id") Integer id, Model model) {
 		
-		model.addAttribute("book", repository.getReferenceById(id));
+		model.addAttribute("book", bookRepository.findById(id).get());
 		
 		return "/books/edit";
 	}
@@ -94,7 +100,7 @@ public class BookController {
 			return "/books/edit";
 		}
 		
-		repository.save(book);
+		bookRepository.save(book);
 		
 		return "redirect:/books";
 	}
@@ -103,9 +109,38 @@ public class BookController {
 	@PostMapping("/delete/{id}")
 	public String delete(@PathVariable("id") Integer id) {
 		
-		repository.deleteById(id);
+		bookRepository.deleteById(id);
 		
 		return "redirect:/books";
+	}
+	
+	
+	@GetMapping("/{id}/borrow")
+	public String borrow(@PathVariable("id") Integer id, Model model) {
+		
+		Book book = bookRepository.findById(id).get();
+		Borrowing prestito = new Borrowing();
+		prestito.setBorrowingDate(LocalDateTime.now());
+		prestito.setBook(book);
+		
+		model.addAttribute("prestito", prestito);
+		
+		return "borrowings/edit";
+	}
+	
+	@PostMapping("/borrow/create")
+	public String store(
+			@Valid @ModelAttribute("prestito") Borrowing prestito,
+			BindingResult bindingResult,
+			Model model) {
+		
+		if(bindingResult.hasErrors()) {
+			return "/borrowings/edit";
+		}
+		
+		borrowingRepository.save(prestito);
+		
+		return "redirect:/books/show/" + prestito.getBook().getId();
 	}
 	
 }

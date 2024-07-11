@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link th:rel="stylesheet"
+	th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}" />
+
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<title>EDIT</title>
+</head>
+<body>
+	<h1 class="fs-2">Prestito del libro 
+		
+<!-- 		<span th:text="${prestito.book.title}"></span> -->
+	</h1>
+
+	<div class="container">
+		<form id="form-prestito"
+			  th:object="${prestito}" 
+			  th:action="@{/books/borrow/create}"
+			  method="post">
+	
+				<input type="hidden" th:field="*{book}" id="book">
+			<label for="borrowing_date" name="Borrowing date"> Data prestito</label>
+			<input type="datetime-local" class="form-control"
+					id="borrowing_date" th:field="*{borrowingDate}" 
+					th:errorClass="is-invalid" th:value="*{borrowingDate}">
+			<div th:if="${#fields.hasErrors('borrowingDate')}" class="invalid-feedback">
+				<ul>
+	   				<li th:each="err : ${#fields.errors('borrowingDate')}" 
+	   					th:text="${err}">
+	   				</li>
+				</ul>
+			</div>
+	
+			<label for="return_date" name="Return date"> Return date </label>
+			<input type="datetime-local" class="form-control" 
+					id="return_date" th:field="*{returnDate}" th:errorClass="is-invalid">
+			<div th:if="${#fields.hasErrors('returnDate')}" class="invalid-feedback">
+				<ul>
+	   				<li th:each="err : ${#fields.errors('returnDate')}" 
+	   					th:text="${err}">
+	   				</li>
+				</ul>
+			</div>
+			
+			<label for="note" name="Note"> Note </label>
+			<input type="text" class="form-control" 
+					id="note" th:field="*{note}" th:errorClass="is-invalid">
+			<div th:if="${#fields.hasErrors('note')}" class="invalid-feedback">
+				<ul>
+	   				<li th:each="err : ${#fields.errors('note')}" 
+	   					th:text="${err}">
+	   				</li>
+				</ul>
+			</div>
+			
+			<button class="btn btn-primary"> Salva </button>	
+			<a class="btn btn-primary" th:href="@{/books}"> Torna alla lista </a>			
+		</form>
+	</div>
+
+	<script th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
