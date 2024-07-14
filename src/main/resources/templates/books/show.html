@@ -21,21 +21,30 @@
 		<h3 th:text="${book.author}"></h3>
 
 		<p th:text="|isbn: ${book.isbn}|"></p>
-
-		<div th:unless="${book.borrowings.isEmpty()}" >
+		
+		<p >Categorie: </p>
+		
+		<ul>
+			<li th:each="categoria: ${book.categories}" 
+				th:text="${categoria.category}"></li>
+		
+		</ul>
+		
+		
+		<div th:unless="${book.borrowings.isEmpty()}" class="table table-striped">
 			<table id="prestiti">
 				<thead>
 					<tr>
 						<th>Data prestito</th>
-						<th>Data restituzione</th>
 						<th>Note</th>
+						<th>Data restituzione</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="prestito : ${book.borrowings}">
-						<td th:text="${prestito.borrowingDate}">1</td>
-						<td th:text="${prestito.returnDate}">1</td>
-						<td th:text="${prestito.note}">1</td>
+						<td th:text="${prestito.borrowingDate}">1   </td>
+						<td th:text="${prestito.note}">1  </td>
+						<td th:text="${prestito.returnDate}">1   </td>
 					</tr>
 				</tbody>
 			</table>

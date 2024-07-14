@@ -20,7 +20,7 @@ public class Borrowing {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@NotNull
+	@NotNull(message = "La data di prestito non può essere null")
 	@Column(name = "borrowing_date", nullable = false)
 	private LocalDateTime borrowingDate;
 	

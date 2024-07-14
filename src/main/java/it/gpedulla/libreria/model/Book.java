@@ -7,6 +7,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -34,6 +37,14 @@ public class Book {
 	
 	@OneToMany(mappedBy = "book")
 	private List<Borrowing> borrowings;
+	
+	@ManyToMany()
+	@JoinTable(
+			name = "book_categories",
+			joinColumns = @JoinColumn(name = "book_id"),
+			inverseJoinColumns = @JoinColumn(name = "category_id")
+			)
+	private List<Category> categories;
 	
 	public Integer getId() {
 		return id;
@@ -73,6 +84,14 @@ public class Book {
 
 	public void setBorrowings(List<Borrowing> borrowings) {
 		this.borrowings = borrowings;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 	
 }

@@ -56,7 +56,14 @@
 	   				</li>
 				</ul>
 			</div>
+
+			<h6>Seleziona la categoria</h6>
 			
+			<th:block th:each="categoria : ${categories}" >
+					<input type="checkbox" name="categoria" th:value="${categoria.id}" th:field="*{categories}"/>
+					<label th:text="${categoria.category}"></label>
+			</th:block>
+
 			<button class="btn btn-primary"> Save </button>				
 			<a class="btn btn-primary" th:href="@{/books}"> Torna alla lista </a>				
 		</form>

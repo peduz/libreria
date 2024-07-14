@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import it.gpedulla.libreria.model.Book;
 import it.gpedulla.libreria.model.Borrowing;
+import it.gpedulla.libreria.model.Category;
 import it.gpedulla.libreria.repository.BookRepository;
 import it.gpedulla.libreria.repository.BorrowingRepository;
+import it.gpedulla.libreria.repository.CategoryRepository;
 import jakarta.validation.Valid;
 
 @Controller
@@ -30,6 +32,9 @@ public class BookController {
 
 	@Autowired
 	private BorrowingRepository borrowingRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
 	@GetMapping
 	public String index(Model model, 
@@ -59,8 +64,9 @@ public class BookController {
 	
 	@GetMapping("/create")
 	public String create(Model model) {
-		
+		List<Category> allCategories = categoryRepository.findAll();
 	    model.addAttribute("book", new Book());
+	    model.addAttribute("categories", allCategories);
 	    
 	    return "/books/create";
 	}
@@ -124,23 +130,9 @@ public class BookController {
 		prestito.setBook(book);
 		
 		model.addAttribute("prestito", prestito);
+		model.addAttribute("editMode", false);
 		
-		return "borrowings/edit";
-	}
-	
-	@PostMapping("/borrow/create")
-	public String store(
-			@Valid @ModelAttribute("prestito") Borrowing prestito,
-			BindingResult bindingResult,
-			Model model) {
-		
-		if(bindingResult.hasErrors()) {
-			return "/borrowings/edit";
-		}
-		
-		borrowingRepository.save(prestito);
-		
-		return "redirect:/books/show/" + prestito.getBook().getId();
+		return "/borrowings/edit";
 	}
 	
 }
