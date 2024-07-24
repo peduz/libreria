@@ -21,7 +21,9 @@ public class SecurityConfiguration {
             .cors(cors -> cors.disable())
             .authorizeHttpRequests(request -> 
                 request
-                    .requestMatchers("/login", "/resources/**", "/logout").permitAll()
+                	//queste sono rotte accessibili a tutti
+                	.requestMatchers("/login", "/resources/**", "/logout", "/api/books/**").permitAll()
+                	//questo vuol dire che TUTTE le altre devono essere sotto autenticazione
                     .anyRequest().authenticated())
             .formLogin(login -> 
                 login.loginPage("/login") // Pagina di login personalizzata
