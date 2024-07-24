@@ -57,7 +57,9 @@
 		</table>
 		<div>
 			<a class="btn btn-primary" 
-				th:href="@{/books/create}"> Crea nuovo
+				th:href="@{/books/create}" 
+				sec:authorize="hasAuthority('USER')"
+				> Crea nuovo
 			</a>
 		</div>
 	</div>

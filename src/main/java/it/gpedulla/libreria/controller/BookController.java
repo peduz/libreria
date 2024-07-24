@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import it.gpedulla.libreria.model.Book;
 import it.gpedulla.libreria.model.Borrowing;
@@ -41,7 +43,6 @@ public class BookController {
 			@RequestParam(name = "author", required = false) String author) {
 		
 		List<Book> libri = new ArrayList<>();
-		
 		
 		if(author == null || author.isBlank()) {
 			libri = bookRepository.findAll();
@@ -133,6 +134,12 @@ public class BookController {
 		model.addAttribute("editMode", false);
 		
 		return "/borrowings/edit";
+	}
+	
+	@ResponseBody
+	@GetMapping("/book/{id}")
+	public Book getBookById(@PathVariable("id") Integer idBook) {
+		return bookRepository.findById(idBook).get();
 	}
 	
 }

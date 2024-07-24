@@ -43,6 +43,7 @@ public class Book {
 			name = "book_categories",
 			joinColumns = @JoinColumn(name = "book_id"),
 			inverseJoinColumns = @JoinColumn(name = "category_id")
+			
 			)
 	private List<Category> categories;
 	
