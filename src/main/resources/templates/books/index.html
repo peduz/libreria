@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="~{fragments :: head}"></div>
+<title>Books</title>
+</head>
+<body>
+	<h1>Books</h1>
+
+	<div class="container" th:if="${!books.isEmpty()}">
+		<table class="content table table-striped">
+			<thead>
+				<tr>
+					<th>ISBN</th>
+					<th>Title</th>
+					<th>Author</th>
+					<th>Year</th>
+					<th>Copies</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="book : ${books}">
+					<td th:text="${book.isbn}"></td>
+					<td th:text="${book.title}"></td>
+					<td th:text="${book.author}"></td>
+					<td th:text="${book.year}"></td>
+					<td th:text="${book.numberOfCopies}"></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+	<div class="container">
+		<div class="content alert alert-primary" role="alert"
+			th:if="${books.isEmpty()}">There is no books in the database</div>
+	
+	</div>
+	<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>
