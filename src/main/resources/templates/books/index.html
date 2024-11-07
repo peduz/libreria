@@ -5,36 +5,62 @@
 <title>Books</title>
 </head>
 <body>
-	<h1>Books</h1>
 
-	<div class="container" th:if="${!books.isEmpty()}">
-		<table class="content table table-striped">
-			<thead>
-				<tr>
-					<th>ISBN</th>
-					<th>Title</th>
-					<th>Author</th>
-					<th>Year</th>
-					<th>Copies</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="book : ${books}">
-					<td th:text="${book.isbn}"></td>
-					<td th:text="${book.title}"></td>
-					<td th:text="${book.author}"></td>
-					<td th:text="${book.year}"></td>
-					<td th:text="${book.numberOfCopies}"></td>
-				</tr>
-			</tbody>
-		</table>
-
-	</div>
-
+	<nav th:replace="~{navbar :: navbar('books')}"></nav>
 	<div class="container">
-		<div class="content alert alert-primary" role="alert"
-			th:if="${books.isEmpty()}">There is no books in the database</div>
-	
+		<h1>Books</h1>
+
+
+		<div class="container">
+			<form th:action="@{/books}" method="get">
+				<div class="input-group">
+					<input name="keyword" th:value="${keyword}" class="form-control"
+						type="search" placeholder="Search" aria-label="Search">
+
+					<button class="btn btn-primary" type="submit">
+						<i class="fas fa-search"></i>
+					</button>
+				</div>
+			</form>
+		</div>
+
+
+		<div class="container" th:if="${!books.isEmpty()}">
+			<table class="content table table-striped">
+				<thead>
+					<tr>
+						<th>ISBN</th>
+						<th>Title</th>
+						<th>Author</th>
+						<th>Year</th>
+						<th>Copies</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="book : ${books}">
+						<td th:text="${book.isbn}"></td>
+						<td th:text="${book.title}"></td>
+						<td th:text="${book.author}"></td>
+						<td th:text="${book.year}"></td>
+						<td th:text="${book.numberOfCopies}"></td>
+						<td><a class="btn btn-primary"
+							th:href="@{|/books/show/${book.id}?keyword=${keyword}|}"> 
+								<i class="fas fa-book"></i>
+						</a></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+
+		<div class="container">
+			<div class="content alert alert-primary" role="alert"
+				th:if="${books.isEmpty()}">There is no books in the database</div>
+
+		</div>
+
+
 	</div>
 	<div th:replace="~{fragments :: scripts}"></div>
 </body>

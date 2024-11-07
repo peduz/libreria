@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="~{fragments :: head}"></div>
+<title th:text="${book.title}"></title>
+</head>
+<body>
+
+	<nav th:replace="~{navbar :: navbar('books')}"></nav>
+	<div class="container d-flex align-items-start flex-column bd-highlight mb-3"
+		style="height: 90vh;">
+		
+		<div class="container mb-auto" th:object="${book}">
+			<h1 th:text="*{title}"></h1>
+			<h2 th:text="|Written by *{author}|"></h2>
+			<hr />
+			<div class="row">
+				<div class="col-8">
+					<dl>
+						<dt>Copies</dt>
+						<dd th:text="*{numberOfCopies}"></dd>
+						<dt>Publication year</dt> 
+						<dd th:text="*{year}"></dd>
+						<dt>ISBN code</dt>
+						<dd th:text="*{isbn}"></dd>
+
+					</dl>
+				</div>
+			</div>
+		</div>
+		<div class="container mt-auto">
+			<a class="btn btn-primary" 
+			th:href="@{ ${bookUrl} }" role="button">Back to books</a>
+
+		</div>
+	</div>
+	<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>

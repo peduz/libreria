@@ -6,7 +6,7 @@
 		class="navbar navbar-expand-lg navbar-light bg-light">
 
 		<div class="container-fluid">
-			<a class="navbar-brand" th:href="@{/studenti/}"> Gestione applicazione </a>
+			<a class="navbar-brand" th:href="@{/}"> Library </a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -16,9 +16,11 @@
 			<div class="collapse navbar-collapse" id="navbarContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-					<a class="nav-link active" aria-current="page" th:href="@{/studenti/list}"
-						th:classappend="${pagename == 'Studenti'} ? link-primary : not-active">
-							Studenti</a>
+						<a class="nav-link active"
+							aria-current="page" th:href="@{/books}"
+							th:classappend="${pagename == 'books'} ? active : not-active">
+							Books 
+						</a>
 					</li>
 				</ul>
 			</div>
