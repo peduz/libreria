@@ -10,9 +10,18 @@
 	<div class="container">
 		<h1>Books</h1>
 
-
-		<div class="container">
-			<form th:action="@{/books}" method="get">
+		<div th:if="${successMessage != null}">
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+				<span th:text="${successMessage}"></span>
+				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		</div>
+		<div class="container row g-3">
+			
+			<a class="btn btn-success col-md-2" th:href="@{/books/create}"><i
+				class="fas fa-plus"></i> Insert a book </a>
+			
+			<form th:action="@{/books}" method="get" class="col-md-10">
 				<div class="input-group">
 					<input name="keyword" th:value="${keyword}" class="form-control"
 						type="search" placeholder="Search" aria-label="Search">
@@ -45,8 +54,8 @@
 						<td th:text="${book.year}"></td>
 						<td th:text="${book.numberOfCopies}"></td>
 						<td><a class="btn btn-primary"
-							th:href="@{|/books/show/${book.id}?keyword=${keyword}|}"> 
-								<i class="fas fa-book"></i>
+							th:href="@{|/books/show/${book.id}?keyword=${keyword}|}"> <i
+								class="fas fa-book"></i>
 						</a></td>
 					</tr>
 				</tbody>
