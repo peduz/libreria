@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="~{fragments :: head}"></div>
+<title>Edit book</title>
+</head>
+<body>
+	<nav th:replace="~{navbar :: navbar('books')}"></nav>
+	<div class="container">
+		<h1>Book</h1>
+		
+		<hr />
+		
+		<form id="book-form" th:object="${book}" 
+			th:action="@{/books/edit/{id} (id=${book.id})}"
+			method="post" class="row g-3">
+			<ul>
+				<li th:each="err : ${#fields.allErrors()}" th:text="${err}" class="text-danger"> </li>				
+			</ul>
+			<div class="col-md-6">
+				<label for="title" class="form-label">Title</label> 
+				
+				<input type="text" class="form-control" id="title" th:errorClass="is-invalid"
+				placeholder="Title" th:field="*{title}" required>
+				<div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
+				  <ul>
+				      <li 
+				         th:each="err : ${#fields.errors('title')}" 
+				         th:text="${err}">
+				      </li>
+				  </ul>
+				</div>
+				
+			</div>
+			<div class="col-md-6">
+				<label for="author" class="form-label">Author</label> 
+				<input type="text" class="form-control" id="author" th:errorClass="is-invalid"
+						placeholder="Author" th:field="*{author}" required>
+				<div th:if="${#fields.hasErrors('author')}" class="invalid-feedback">
+				  <ul>
+				      <li 
+				         th:each="err : ${#fields.errors('author')}" 
+				         th:text="${err}">
+				      </li>
+				  </ul>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label for="isbn_code" class="form-label">ISBN</label> 
+				<input type="text" class="form-control" id="isbn_code" th:errorClass="is-invalid"
+						placeholder="ISBN" th:field="*{isbn}" required >
+				<div th:if="${#fields.hasErrors('isbn')}" class="invalid-feedback">
+				  <ul>
+				      <li 
+				         th:each="err : ${#fields.errors('isbn')}" 
+				         th:text="${err}">
+				      </li>
+				  </ul>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<label for="copies" class="form-label">N° copies</label> 
+				<input type="number" class="form-control" id="copies" th:errorClass="is-invalid"
+						placeholder="Copies" th:field="*{numberOfCopies}" required>
+				<div th:if="${#fields.hasErrors('numberOfCopies')}" class="invalid-feedback">
+				  <ul>
+				      <li 
+				         th:each="err : ${#fields.errors('numberOfCopies')}" 
+				         th:text="${err}">
+				      </li>
+				  </ul>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<label for="year" class="form-label">Year</label> 
+				<input type="number" class="form-control" id="year" th:errorClass="is-invalid"
+						placeholder="Year" th:field="*{year}">
+			</div>
+			<div class="col-12">
+				<button type="submit" class="btn btn-primary">Update book</button>
+				
+				<a class="btn btn-danger" th:href="@{/books}">Cancel</a>
+			</div>
+		</form>
+
+
+	</div>
+
+	<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>

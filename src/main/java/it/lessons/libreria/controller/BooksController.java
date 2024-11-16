@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -82,5 +83,42 @@ public class BooksController {
 		
 		return "redirect:/books";
 	}
+	
+	@GetMapping("/edit/{id}")
+	public String edit(@PathVariable Long id, Model model) {
+		
+		model.addAttribute("book", bookRepo.findById(id).get());
+		
+		return "books/edit";
+	}
 
+	@PostMapping("/edit/{id}")
+	public String update(@PathVariable Long id,
+	   @Valid @ModelAttribute("book") Book formBook, 
+	   BindingResult bindingResult, 
+	   Model model) {
+	   
+	   if(bindingResult.hasErrors()) {
+	      return "/books/edit";
+	   }
+	   
+	   Book book = bookRepo.findById(id).get();
+	   
+	   if(!formBook.getIsbn().equals(book.getIsbn())) {
+		   bindingResult.addError(new ObjectError("isbn", "ISBN code cannot be changed"));
+		   return "/books/edit";
+	   }
+	   
+	   bookRepo.save(formBook);
+	   
+	   return "redirect:/books";
+	}
+	
+	@PostMapping("/delete/{id}")
+	public String delete(@PathVariable("id") Long id) {
+
+	   bookRepo.deleteById(id);
+	   
+	   return "redirect:/books";
+	}
 }

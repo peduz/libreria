@@ -44,6 +44,8 @@
 						<th>Year</th>
 						<th>Copies</th>
 						<th></th>
+						<th></th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -53,10 +55,27 @@
 						<td th:text="${book.author}"></td>
 						<td th:text="${book.year}"></td>
 						<td th:text="${book.numberOfCopies}"></td>
-						<td><a class="btn btn-primary"
-							th:href="@{|/books/show/${book.id}?keyword=${keyword}|}"> <i
-								class="fas fa-book"></i>
-						</a></td>
+						<td>
+							<a class="btn btn-primary"
+								th:href="@{|/books/show/${book.id}?keyword=${keyword}|}"> <i
+									class="fas fa-book"></i>
+							</a>
+						</td>
+						<td>
+							<a class="btn btn-primary"
+								th:href="@{|/books/edit/${book.id}|}"> <i
+									class="fas fa-edit"></i>
+							</a>
+						</td>
+						<td>
+							<form id="delete-book" action="#"
+									th:action="@{'/books/delete/{id}'(id=${book.id})}" method="post">
+							  <button class="btn btn-danger" type="submit" id="submitButton" 
+							  			onclick="return confirm('Are you sure?')">
+							    <i class="fas fa-trash-alt"></i>
+							  </button>
+							</form>
+						</td>
 					</tr>
 				</tbody>
 			</table>

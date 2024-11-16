@@ -29,9 +29,28 @@
 			</div>
 		</div>
 		<div class="container mt-auto">
-			<a class="btn btn-primary" 
-			th:href="@{ ${bookUrl} }" role="button">Back to books</a>
-
+			<div class="row">
+				<div class="col-md-4">
+					<a class="btn btn-primary"  th:href="@{ ${bookUrl} }" 
+						role="button">Back to books</a> 
+					
+				</div>
+				<div class="col-md-4">
+					<a
+						class="btn btn-primary" th:href="@{|/books/edit/${book.id}|}"> <i
+						class="fas fa-edit"></i>Edit book
+					</a>
+				</div>
+				<div class="col-md-4">
+					<form id="delete-book" action="#"
+											th:action="@{'/books/delete/{id}'(id=${book.id})}" method="post">
+					  <button class="btn btn-danger" type="submit" id="submitButton" 
+					  			onclick="return confirm('Are you sure?')">
+					    <i class="fas fa-trash-alt"></i>Delete book
+					  </button>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div th:replace="~{fragments :: scripts}"></div>
