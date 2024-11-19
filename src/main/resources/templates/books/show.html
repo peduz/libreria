@@ -27,21 +27,61 @@
 					</dl>
 				</div>
 			</div>
+			
+			<div th:if="*{!borrowings.isEmpty()}">
+				<table class="content table table-striped">
+					<thead>
+						<tr>
+							<th>
+								Borrowing date
+							</th>
+							<th>
+								Return date
+							</th>
+							<th>
+								Note
+							</th>
+							<th>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="borrow : ${book.borrowings}">
+							<td th:text="${borrow.borrowingDate}">
+							</td>
+							<td th:text="${borrow.returnDate}">
+							</td>
+							<td th:text="${borrow.note}">
+							</td>
+							<td>
+								<a class="btn btn-primary" th:href="@{|/borrowing/edit/${borrow.id}|}">
+									<i class="fas fa-edit"></i>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div th:if="*{borrowings.isEmpty()}">
+				<span> There are no borrowings for this book </span>
+			</div>
+			
 		</div>
 		<div class="container mt-auto">
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-3">
 					<a class="btn btn-primary"  th:href="@{ ${bookUrl} }" 
 						role="button">Back to books</a> 
 					
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-3">
 					<a
 						class="btn btn-primary" th:href="@{|/books/edit/${book.id}|}"> <i
 						class="fas fa-edit"></i>Edit book
 					</a>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-3">
 					<form id="delete-book" action="#"
 											th:action="@{'/books/delete/{id}'(id=${book.id})}" method="post">
 					  <button class="btn btn-danger" type="submit" id="submitButton" 
@@ -49,6 +89,11 @@
 					    <i class="fas fa-trash-alt"></i>Delete book
 					  </button>
 					</form>
+				</div>
+				<div class="col-md-3">
+					<a class="btn btn-primary" th:href="@{/books/{id}/borrow (id=${book.id})}" >
+						New borrow
+					</a>
 				</div>
 			</div>
 		</div>

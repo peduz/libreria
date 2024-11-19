@@ -1,5 +1,6 @@
 package it.lessons.libreria.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.lessons.libreria.model.Book;
+import it.lessons.libreria.model.Borrowing;
 import it.lessons.libreria.repository.BookRepository;
 import jakarta.validation.Valid;
 
@@ -120,5 +122,19 @@ public class BooksController {
 	   bookRepo.deleteById(id);
 	   
 	   return "redirect:/books";
+	}
+	
+	@GetMapping("/{id}/borrow")
+	public String borrow(@PathVariable Long id, Model model) {
+		
+		Book book = bookRepo.findById(id).get();
+		
+		Borrowing borrow = new Borrowing();
+		borrow.setBook(book);
+		borrow.setBorrowingDate(LocalDate.now());
+		
+		model.addAttribute("borrowing", borrow);
+		
+		return "borrowings/edit";
 	}
 }

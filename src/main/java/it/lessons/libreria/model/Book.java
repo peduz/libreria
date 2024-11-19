@@ -1,10 +1,13 @@
 package it.lessons.libreria.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -40,8 +43,19 @@ public class Book {
 	@Column(name = "isbn_code", length = 13, unique = true, nullable = false)
 	private String isbn;
 
+	@OneToMany(mappedBy = "book")
+	private List<Borrowing> borrowings;
+	
 	public Long getId() {
 		return id;
+	}
+
+	public List<Borrowing> getBorrowings() {
+		return borrowings;
+	}
+
+	public void setBorrowings(List<Borrowing> borrowings) {
+		this.borrowings = borrowings;
 	}
 
 	public void setId(Long id) {

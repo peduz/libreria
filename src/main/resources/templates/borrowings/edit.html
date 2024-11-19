@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="~{fragments :: head}"></div>
+<title>Borrow</title>
+</head>
+<body>
+	<nav th:replace="~{navbar :: navbar('books')}"></nav>
+	<div class="container">
+		<h1>Borrow <span th:text="${borrowing.book.title}"> </span></h1>
+		
+		<hr/>
+		
+		<form id="borrowing-form" th:object="${borrowing}" 
+			th:action="${edit} ? @{|/borrowing/edit/${borrowing.id}|} : @{/borrowing/create}"
+			method="post" class="row g-3">
+
+			<ul>
+				<li th:each="err : ${#fields.allErrors()}" th:text="${err}"
+					class="text-danger"></li>
+			</ul>
+			<input type="hidden" th:field="*{book}" id="book">
+			
+			<div class="col-md-6">
+				<label for="borrowingDate" class="form-label">Borrowing date</label> 
+				
+				<input type="date" class="form-control" id="borrowingDate" 
+				th:errorClass="is-invalid"
+				placeholder="Borrowing date" th:field="*{borrowingDate}" required>
+				<div th:if="${#fields.hasErrors('borrowingDate')}" class="invalid-feedback">
+				  <ul>
+				      <li 
+				         th:each="err : ${#fields.errors('borrowingDate')}" 
+				         th:text="${err}">
+				      </li>
+				  </ul>
+				</div>
+				
+			</div>
+			<div class="col-md-6">
+				<label for="returnDate" class="form-label">Return date</label> 
+				
+				<input type="date" class="form-control" id="returnDate" 
+				th:errorClass="is-invalid"
+				placeholder="Return date" th:field="*{returnDate}">
+				<div th:if="${#fields.hasErrors('returnDate')}" class="invalid-feedback">
+				  <ul>
+				      <li 
+				         th:each="err : ${#fields.errors('returnDate')}" 
+				         th:text="${err}">
+				      </li>
+				  </ul>
+				</div>
+				
+			</div>
+			
+			<div class="col-12">
+				<label for="note" class="form-label">Note</label> 
+				
+				<textarea rows="3" th:field="*{note}" id="note" 
+						th:errorClass="is-invalid" >
+				
+				</textarea>
+				
+			</div>
+			
+			<div class="col-12">
+				<button type="submit" class="btn btn-primary">
+					<i class="fas fa-check"></i> Save
+				</button>
+				<a class="btn btn-danger" th:href="@{|/books/show/${borrowing.book.id}|}">
+					<i class="fas fa-times"></i> Cancel
+				</a>
+			</div>
+		</form>
+	</div>
+	
+	<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>
