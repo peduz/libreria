@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="~{fragments :: head}"></div>
+<title>Categories</title>
+</head>
+<body>
+
+	<nav th:replace="~{navbar :: navbar('categories')}"></nav>
+	<div class="container">
+		<h1>Categories</h1>
+		<hr />
+
+		<div class="row">
+			<div class="col-4">
+				<form th:action="@{/categories/create}" method="post"
+					id="category-form" th:object="${cat}" class="row">
+					<div class="input-group mb-3 col-6">
+						<input id="category" th:field="*{category}" type="text"
+							class="form-control" th:errorClass="is-invalid">
+						<button class="btn btn-primary" type="submit">Add</button>
+					</div>
+					<div th:if="${#fields.hasErrors('category')}" class="invalid-feedback">
+						<ul>
+							<li th:each="err : ${#fields.errors('category')}" th:text="${err}">
+							</li>
+						</ul>
+					</div>
+				</form>
+
+
+				<table class="content table table-striped"
+					th:unless="${categories.isEmpty()}">
+					<thead>
+						<tr>
+							<th>Category</th>
+							<th>N° books</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="category : ${categories}">
+							<td th:text="${category.category}"></td>
+							<td th:text="${category.books.size()}"></td>
+							<td>
+								<form th:action="@{|/categories/delete/${category.id}|}"
+									method="post" id="delete-form">
+									<button class="btn btn-danger" type="submit" id="submitButton"
+										onclick="return confirm('Are you sure?')">
+										<i class="fas fa-trash"> </i>
+									</button>
+								</form>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div th:if="${categories.isEmpty()}">There are no categories</div>
+			</div>
+		</div>
+
+
+	</div>
+
+	<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>

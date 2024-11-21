@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import it.lessons.libreria.model.Book;
 import it.lessons.libreria.model.Borrowing;
 import it.lessons.libreria.repository.BookRepository;
+import it.lessons.libreria.repository.CategoryRepository;
 import jakarta.validation.Valid;
 
 @Controller
@@ -28,6 +29,9 @@ public class BooksController {
 
 	@Autowired
 	private BookRepository bookRepo;
+	
+	@Autowired
+	private CategoryRepository categoryRepo;
 
 	@GetMapping
 	public String index(Model model, @RequestParam(name = "keyword", required = false) String keyword) {
@@ -67,6 +71,7 @@ public class BooksController {
 	@GetMapping("/create")
 	public String create(Model model) {
 		model.addAttribute("book", new Book());
+		model.addAttribute("allCategories", categoryRepo.findAll());
 
 		return "books/create";
 	}
@@ -90,6 +95,7 @@ public class BooksController {
 	public String edit(@PathVariable Long id, Model model) {
 		
 		model.addAttribute("book", bookRepo.findById(id).get());
+		model.addAttribute("allCategories", categoryRepo.findAll());
 		
 		return "books/edit";
 	}

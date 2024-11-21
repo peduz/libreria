@@ -2,6 +2,8 @@ package it.lessons.libreria.model;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,9 +21,11 @@ public class Borrowing {
 	private Long id;
 	
 	@NotNull(message = "Borrowing date cannot be null")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	@FutureOrPresent
 	private LocalDate borrowingDate;
 	
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	@FutureOrPresent
 	private LocalDate returnDate;
 	
