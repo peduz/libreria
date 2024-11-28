@@ -18,8 +18,10 @@ public class SecurityConfiguration {
 			.requestMatchers("/books/create", "/books/edit/**").hasAuthority("ADMIN")
 				.requestMatchers(HttpMethod.POST, "/books/**").hasAuthority("ADMIN")
 				.requestMatchers("/categories", "/categories/**").hasAuthority("ADMIN")
-				.requestMatchers("/books", "/books/**").hasAnyAuthority("USER", "ADMIN").requestMatchers("/**")
-				.permitAll().and().formLogin().and().logout().and().exceptionHandling();
+				.requestMatchers("/books", "/books/**").hasAnyAuthority("USER", "ADMIN")
+				.requestMatchers("/**").permitAll()
+				.and().formLogin().and().logout().and().exceptionHandling()
+				.and().csrf().disable();
 
 		return http.build();
 	}
